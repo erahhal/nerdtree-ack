@@ -29,9 +29,15 @@ call NERDTreeAddMenuItem({
     \ 'shortcut': 's',
     \ 'callback': 'NERDTreeAck' })
 
+function! Relpath(filename)
+    let cwd = getcwd()
+    let s = substitute(a:filename, l:cwd . "/" , "", "")
+    return s
+endfunction
+
 function! NERDTreeAck()
     " get the current dir from NERDTree
-    let cd = g:NERDTreeDirNode.GetSelected().path.str()
+    let cd = Relpath(g:NERDTreeDirNode.GetSelected().path.str())
 
     " get the pattern
     let pattern = input("Enter the pattern: ")
